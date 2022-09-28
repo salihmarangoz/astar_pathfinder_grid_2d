@@ -76,7 +76,6 @@ void demo_maze()
     const auto end = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     printf("demo_maze timing: %ld ms\n", elapsed.count());
-    printf("%d\n", out.size());
 
     show_maze(img, out, "demo_maze");
     if (success)

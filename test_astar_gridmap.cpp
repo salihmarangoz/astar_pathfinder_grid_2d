@@ -19,9 +19,9 @@ int main()
         return 1;
     }
 
-    std::vector<std::pair<size_t, size_t>> out;
+    std::vector<std::pair<int, int>> out;
     astar_gridmap::AstarGridMap2D<uchar> planner(img.data, img.rows, img.cols);
-    bool success = planner.plan(0, 0, 10, 10, out, 0, true);
+    bool success = planner.plan(0, 0, 5, 5, out, 0, true);
 
     if (success)
     {

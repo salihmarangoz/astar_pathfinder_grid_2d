@@ -13,6 +13,8 @@ only 2d gridmap !!!
 - smooth path
 - simplify path
 
+add dont check is inside
+
 note: fibonacci has some problems with handle_type. d_ary_heap has void* handle type.
 
 https://www.boost.org/doc/libs/1_80_0/doc/html/heap/data_structures.html

@@ -94,7 +94,7 @@ namespace pathfinder_grid_2d
             points[idx].handle = min_heap.push(NodePtr_(&(points[idx])));
 
             bool goal_reached = false;
-            while (!goal_reached && min_heap.size() > 0)
+            while (min_heap.size() > 0)
             {
                 // get Node_ with the lowest total distance value
                 NodePtr_ curr = min_heap.top();
@@ -151,6 +151,7 @@ namespace pathfinder_grid_2d
                         // if there is a neighbor previously evaluated
                         if (points[n_idx].i >= 0 /* && points[n_idx].j >= 0 */)
                         {
+                            
                             // overwrite the current neighbor if the current neighbor's distance_from_start is smaller
                             if (points[n_idx].dist_from_start > dist_from_start)
                             {
@@ -160,7 +161,7 @@ namespace pathfinder_grid_2d
 
                                 if (points[n_idx].handle_available) // if neighbor still in the heap, update
                                 {
-                                    min_heap.update(points[n_idx].handle); // update or decrease doesn't matter for fibonacci
+                                    //min_heap.update(points[n_idx].handle); // update or decrease doesn't matter for fibonacci
                                     //min_heap.decrease(points[n_idx].handle); // but for other methods decrease is faster
                                 }
                                 else // if neighbor is previously evaluated and not in the heap, add to heap for new evaluation
@@ -170,6 +171,7 @@ namespace pathfinder_grid_2d
                                 }
                                 
                             }
+                            
                         }
                         else
                         {
@@ -185,8 +187,7 @@ namespace pathfinder_grid_2d
             {
                 // backtracking
                 path_out.clear();
-                int idx = end_i * m_cols + end_j;
-                Node_ *cur = &points[idx];
+                Node_ *cur = &points[at(end_i, end_j)];
                 path_out.push_back(Cell(end_i, end_j));
                 while (cur->came_from != nullptr)
                 {

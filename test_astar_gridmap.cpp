@@ -11,12 +11,12 @@
 #include <boost/dynamic_bitset.hpp>
 
 // dont define this in your code. use only for debugging accessed nodes on the grid
-#define DEBUG_PATHFINDER_GRID_2D (200)
+//#define DEBUG_PATHFINDER_GRID_2D (200)
 #include "pathfinder_grid_2d.hpp"
 
 using namespace cv;
 
-Mat load_maze(std::string filename = "../maze_1000_smooth.png")
+Mat load_maze(std::string filename = "../maze.png")
 {
     Mat img = imread(filename, IMREAD_GRAYSCALE);
     if (img.empty())
@@ -24,6 +24,7 @@ Mat load_maze(std::string filename = "../maze_1000_smooth.png")
         std::cout << "Could not read the image: " << filename << std::endl;
         exit(1);
     }
+
     return img;
 }
 
@@ -32,6 +33,7 @@ void show_maze(Mat &img, const pathfinder_grid_2d::Path &path, std::string windo
     Mat img_color;
     cvtColor(img, img_color, COLOR_GRAY2BGR);
 
+#ifdef DEBUG_PATHFINDER_GRID_2D
     for (int i=0; i<img.rows; i++)
     {
         for (int j=0; j<img.cols; j++)
@@ -46,6 +48,7 @@ void show_maze(Mat &img, const pathfinder_grid_2d::Path &path, std::string windo
 
         }
     }
+#endif
 
     for (int i = 0; i < path.size(); i++)
     {
@@ -61,40 +64,35 @@ void show_maze(Mat &img, const pathfinder_grid_2d::Path &path, std::string windo
     waitKey(0);
 }
 
-void demo_maze()
+void demo_maze(Mat img)
 {
-    Mat img = load_maze();
-
     const auto start = std::chrono::system_clock::now();
 
     pathfinder_grid_2d::PathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
     pathfinder_grid_2d::Path out;
-    int start_i = 4, start_j = img.cols / 2;
-    int end_i = img.rows - 5, end_j = img.cols / 2;
+    int start_i = 0, start_j = img.cols / 2;
+    int end_i = img.rows - 1, end_j = img.cols / 2;
     bool success = planner.plan(start_i, start_j, end_i, end_j, out, 127, false);
 
     const auto end = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     printf("demo_maze timing: %ld ms\n", elapsed.count());
 
-    show_maze(img, out, "demo_maze");
     if (success)
     {
         printf("demo_maze plan succesful!\n");
-        
+        show_maze(img, out, "demo_maze");
     }
     else
     {
         printf("demo_maze plan failed!\n");
         return;
     }
-
+    
 }
 
-void demo_maze_bitset()
+void demo_maze_bitset(Mat img)
 {
-    Mat img = load_maze();
-
     // convert image to bitset
     boost::dynamic_bitset<> img_bitset;
     img_bitset.reserve(img.rows*img.cols);
@@ -110,8 +108,11 @@ void demo_maze_bitset()
 
     pathfinder_grid_2d::PathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
     pathfinder_grid_2d::Path out;
-    int start_i = 5, start_j = img.cols / 2;
-    int end_i = img.rows - 5, end_j = img.cols / 2;
+    int start_i = 0;
+    int start_j = img.cols / 2;
+    int end_i = img.rows - 1;
+    int end_j = img.cols / 2;
+    printf("%d %d\n", img.rows, img.cols);
     bool success = planner.plan(start_i, start_j, end_i, end_j, out, 127, false);
 
     const auto end = std::chrono::system_clock::now();
@@ -132,7 +133,11 @@ void demo_maze_bitset()
 
 int main()
 {
-    demo_maze();
-    demo_maze_bitset();
+    std::string maze_files[] = {"../assets/maze9.png", "../assets/maze99.png"};
+    for (auto f : maze_files)
+    {
+        demo_maze(load_maze(f));
+        demo_maze_bitset(load_maze(f));
+    }
     return 0;
 }

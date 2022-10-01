@@ -11,6 +11,7 @@
 
 // dont define this in your code. use only for debugging accessed nodes on the grid
 #define DEBUG_PATHFINDER_GRID_2D (200)
+
 #include "pathfinder_grid_2d.h"
 
 using namespace cv;
@@ -67,8 +68,9 @@ void demo_maze(Mat img)
 {
     const auto start = std::chrono::system_clock::now();
 
-    //pathfinder_grid_2d::PathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
-    pathfinder_grid_2d::FastPathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
+    // pathfinder_grid_2d::PathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols); // stable algorithm
+    pathfinder_grid_2d::FastPathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols); // fast algorithm
+
     pathfinder_grid_2d::Path out;
     int start_i = 0, start_j = img.cols / 2;
     int end_i = img.rows - 1, end_j = img.cols / 2;
@@ -107,8 +109,9 @@ void demo_maze_bitset(Mat img)
 
     const auto start = std::chrono::system_clock::now();
 
-    //pathfinder_grid_2d::PathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
-    pathfinder_grid_2d::FastPathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
+    //pathfinder_grid_2d::PathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);  // stable algorithm
+    pathfinder_grid_2d::FastPathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols); // fast algorithm
+
     pathfinder_grid_2d::Path out;
     int start_i = 0;
     int start_j = img.cols / 2;

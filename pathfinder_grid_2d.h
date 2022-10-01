@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef __PATHFINDER_GRID_2D__
-#define __PATHFINDER_GRID_2D__
+#ifndef __PATHFINDER_GRID_2D__SALIH_MARANGOZ__
+#define __PATHFINDER_GRID_2D__SALIH_MARANGOZ__
 
 // More info: https://www.boost.org/doc/libs/1_80_0/doc/html/heap/data_structures.html
 // skew_heap, priority_queue, and d_ary_heap are not mutable by default. It is possible with the mutable_ interface but fibonacci_heap is probably will be faster.
@@ -433,4 +433,4 @@ namespace pathfinder_grid_2d
 
 } // pathfinder_grid2d
 
-#endif // __PATHFINDER_GRID_2D__
+#endif // __PATHFINDER_GRID_2D__SALIH_MARANGOZ__

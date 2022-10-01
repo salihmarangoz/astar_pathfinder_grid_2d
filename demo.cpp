@@ -7,16 +7,15 @@
 #include <string>
 #include <chrono>
 
-#include <boost/heap/fibonacci_heap.hpp>
 #include <boost/dynamic_bitset.hpp>
 
 // dont define this in your code. use only for debugging accessed nodes on the grid
-//#define DEBUG_PATHFINDER_GRID_2D (200)
-#include "pathfinder_grid_2d.hpp"
+#define DEBUG_PATHFINDER_GRID_2D (200)
+#include "pathfinder_grid_2d.h"
 
 using namespace cv;
 
-Mat load_maze(std::string filename = "../maze.png")
+Mat load_maze(std::string filename)
 {
     Mat img = imread(filename, IMREAD_GRAYSCALE);
     if (img.empty())
@@ -68,10 +67,12 @@ void demo_maze(Mat img)
 {
     const auto start = std::chrono::system_clock::now();
 
-    pathfinder_grid_2d::PathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
+    //pathfinder_grid_2d::PathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
+    pathfinder_grid_2d::FastPathFinderGrid2D<uchar> planner(img.data, img.rows, img.cols);
     pathfinder_grid_2d::Path out;
     int start_i = 0, start_j = img.cols / 2;
     int end_i = img.rows - 1, end_j = img.cols / 2;
+
     bool success = planner.plan(start_i, start_j, end_i, end_j, out, 127, false);
 
     const auto end = std::chrono::system_clock::now();
@@ -106,13 +107,14 @@ void demo_maze_bitset(Mat img)
 
     const auto start = std::chrono::system_clock::now();
 
-    pathfinder_grid_2d::PathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
+    //pathfinder_grid_2d::PathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
+    pathfinder_grid_2d::FastPathFinderGrid2D<bool> planner(&img_bitset, img.rows, img.cols);
     pathfinder_grid_2d::Path out;
     int start_i = 0;
     int start_j = img.cols / 2;
     int end_i = img.rows - 1;
     int end_j = img.cols / 2;
-    printf("%d %d\n", img.rows, img.cols);
+
     bool success = planner.plan(start_i, start_j, end_i, end_j, out, 127, false);
 
     const auto end = std::chrono::system_clock::now();
@@ -133,7 +135,8 @@ void demo_maze_bitset(Mat img)
 
 int main()
 {
-    std::string maze_files[] = {"../assets/maze9.png", "../assets/maze99.png"};
+    std::string maze_files[] = {"../assets/trap.png", "../assets/maze9.png", "../assets/maze99.png", "../assets/maze199.png"};
+
     for (auto f : maze_files)
     {
         demo_maze(load_maze(f));

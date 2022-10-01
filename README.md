@@ -1,6 +1,6 @@
 ## PathFinder Grid 2D (A*)
 
-Path finder on 2D grids with A* algorithm with 400 lines of code in a single header file. Includes a stable and a fast path finders for different needs. This fast path finder has runtime performance close to [this project](https://github.com/Eurecat/astar-gridmap-2d) (analyzed on 1 October 2022).
+Path finder on 2D grids with A* algorithm with 400 lines of code in a single header file. Includes a stable and a fast path finders for different needs. The fast path finder has runtime performance close to [this project](https://github.com/Eurecat/astar-gridmap-2d) (analyzed on 1 October 2022).
 
 Note: Tested on Ubuntu 20.04.
 
@@ -51,7 +51,7 @@ pathfinder_grid_2d::Path out; // output array
 bool success = planner.plan(s_i, s_j, e_i, e_j, out, 127, false); // obstacles has lower values since black pixels are zero. We set the threshold to 127 since white pixels are 255.
 ```
 
-## Screenshots
+## Screenshots of the Demo Code
 
 ![ss](assets/ss.png)
 

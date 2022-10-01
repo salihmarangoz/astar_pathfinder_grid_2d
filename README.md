@@ -1,28 +1,34 @@
 ## PathFinder Grid 2D (A*)
 
-Path finder on 2D grids library with 400 lines of code in a single header file. Includes a stable and a fast path finders for different needs.
+Path finder on 2D grids with A* algorithm with 400 lines of code in a single header file. Includes a stable and a fast path finders for different needs. This fast path finder has runtime performance close to [this project](https://github.com/Eurecat/astar-gridmap-2d) (analyzed on 1 October 2022).
 
 Note: Tested on Ubuntu 20.04.
 
-**Features**
+## Features
 
 - Includes a theoretically correct stable A* path finder (`PathFinderGrid2D`) with Fibonacci Heap
 - Includes a aggressively optimized (but 4x faster) A* path finder (`FastPathFinderGrid2D`) with Priority Queue.
-- Besides of raw arrays, supports path finding on `boost::dynamic_bitset`.
-- Heuristic functions can be disabled so the algorithm becomes Dijkstra. (Only use it with `PathFinderGrid2D`).
-- 4 or 8 neighbor checking.
+- Besides raw arrays, also supports  `boost::dynamic_bitset`. See `demo.cpp`.
+- Heuristic functions can be disabled, so the algorithm becomes Dijkstra. (Only use it with `PathFinderGrid2D`).
+- 4 or 8 neighbor checking. 8 neighbor is the default. The algorithm may run faster with 4 neighbor.
 - Includes a demo code. See `demo.cpp`.
 
-## Compile Demo
+## Compile and Run the Demo
 
 ```bash
 $ sudo apt install libboost1.71-dev
-...
+$ git clone https://github.com/salihmarangoz/astar_pathfinder_grid_2d.git
+$ cd astar_pathfinder_grid_2d
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j8
+$ ./demo
 ```
 
 
 
-## How to include in my project
+## How to include this in my project
 
 1. You need the boost library. You can install it on Ubuntu with `sudo apt install libboost1.71-dev`
 
